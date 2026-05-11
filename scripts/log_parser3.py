@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 file_path = "logs/sample3.log"
+report_path = "reports/soc_report.txt"
 
 attacks = {}
 
@@ -24,9 +25,20 @@ with open(file_path, "r") as file:
                 attacks[ip]["times"].append(time)
                 attacks[ip]["users"].add(user)
 
-print("=== TIME-BASED BRUTE FORCE DETECTOR ===\n")
+# Step 2: Detect bursts, assign severity, build report
+scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+report_lines = []
 
-# Step 2: Detect bursts and assign severity
+report_lines.append("=" * 50)
+report_lines.append("       SOC INCIDENT REPORT")
+report_lines.append(f"       Scan Time : {scan_time}")
+report_lines.append(f"       Log File  : {file_path}")
+report_lines.append("=" * 50)
+report_lines.append("")
+
+alert_count = 0
+monitored_count = 0
+
 for ip, data in attacks.items():
     times = sorted(data["times"])
     users = data["users"]
@@ -37,7 +49,6 @@ for ip, data in attacks.items():
         diff = (times[i + 2] - times[i]).total_seconds()
 
         if diff <= 5:
-            # Severity tiering
             if total_attempts >= 10:
                 severity = "CRITICAL"
             elif total_attempts >= 5:
@@ -45,17 +56,35 @@ for ip, data in attacks.items():
             else:
                 severity = "MEDIUM"
 
-            print(f"🚨 ATTACK DETECTED")
-            print(f"   Severity  : {severity}")
-            print(f"   IP        : {ip}")
-            print(f"   Users     : {', '.join(users)}")
-            print(f"   Attempts  : {total_attempts}")
-            print(f"   Window    : {diff} seconds")
-            print()
+            alert_count += 1
+            report_lines.append(f"[ALERT #{alert_count}] BRUTE FORCE DETECTED")
+            report_lines.append(f"  Severity  : {severity}")
+            report_lines.append(f"  IP        : {ip}")
+            report_lines.append(f"  Users     : {', '.join(users)}")
+            report_lines.append(f"  Attempts  : {total_attempts}")
+            report_lines.append(f"  Window    : {diff} seconds")
+            report_lines.append("")
             detected = True
             break
 
     if not detected:
-        print(f"⚠️  MONITORED : {ip} | Users: {', '.join(users)} | Attempts: {total_attempts}")
+        monitored_count += 1
+        report_lines.append(f"[MONITORED] {ip} | Users: {', '.join(users)} | Attempts: {total_attempts}")
+        report_lines.append("")
 
-print("\n=== SCAN COMPLETE ===")
+report_lines.append("=" * 50)
+report_lines.append(f"  Alerts    : {alert_count}")
+report_lines.append(f"  Monitored : {monitored_count}")
+report_lines.append(f"  Total IPs : {alert_count + monitored_count}")
+report_lines.append("=" * 50)
+
+# Step 3: Print to terminal
+for line in report_lines:
+    print(line)
+
+# Step 4: Write to report file
+with open(report_path, "w") as report_file:
+    for line in report_lines:
+        report_file.write(line + "\n")
+
+print(f"\nReport saved to: {report_path}")
