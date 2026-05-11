@@ -1,0 +1,13 @@
+=== SOC INCIDENT REPORT (LEVEL 4) ===
+
+Total suspicious IPs: 3
+Top attacker: 203.0.113.99
+
+CRITICAL | IP: 203.0.113.99 | Score: 90
+   Attempts: 4 | Targets: root
+
+HIGH | IP: 172.16.0.5 | Score: 70
+   Attempts: 3 | Targets: alice
+
+MEDIUM | IP: 10.0.0.8 | Score: 40
+   Attempts: 2 | Targets: bob
