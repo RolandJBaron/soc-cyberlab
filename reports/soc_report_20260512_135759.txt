@@ -1,0 +1,45 @@
+==================================================
+       SOC INCIDENT REPORT
+       Scan Time : 2026-05-12 13:57:59
+       Log File  : logs/sample4.log
+==================================================
+
+[ALERT #1] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 10.0.0.5
+  Users     : admin
+  Attempts  : 3
+  Window    : 4.0 seconds
+
+[MONITORED] 172.16.0.9 | Users: root | Attempts: 2
+
+[ALERT #2] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 203.0.113.99
+  Users     : root
+  Attempts  : 3
+  Window    : 4.0 seconds
+
+[ALERT #3] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 10.0.0.7
+  Users     : admin, root, service, guest
+  Attempts  : 4
+  Window    : 2.0 seconds
+
+[MONITORED] 45.33.32.156 | Users: john | Attempts: 1
+
+[MONITORED] 180.101.88.22 | Users: john | Attempts: 2
+
+[ALERT #4] BRUTE FORCE DETECTED
+  Severity  : CRITICAL
+  IP        : 192.168.1.50
+  Users     : sysadmin
+  Attempts  : 10
+  Window    : 2.0 seconds
+
+==================================================
+  Alerts    : 4
+  Monitored : 3
+  Total IPs : 7
+==================================================

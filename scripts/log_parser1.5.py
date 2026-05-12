@@ -1,31 +1,39 @@
 import re
 from datetime import datetime
 
-file_path = "logs/sample3.log"
-report_path = "reports/soc_report.txt"
+file_path = "logs/sample4.log"
+report_path = f"reports/soc_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
 
 attacks = {}
+user_activity = {}
 
-# Step 1: Collect timestamps and usernames per IP
+# Step 1: Collect data per IP and per username
 with open(file_path, "r") as file:
     for line in file:
-        if "LOGIN_FAILED" in line:
-            ip_match = re.search(r"ip:([\d\.]+)", line)
-            time_match = re.search(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})", line)
-            user_match = re.search(r"user:(\w+)", line)
+        ip_match = re.search(r"ip:([\d\.]+)", line)
+        time_match = re.search(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})", line)
+        user_match = re.search(r"user:(\w+)", line)
+        event_match = re.search(r"(LOGIN_FAILED|LOGIN_SUCCESS)", line)
 
-            if ip_match and time_match and user_match:
-                ip = ip_match.group(1)
-                time = datetime.strptime(time_match.group(1), "%Y-%m-%d %H:%M:%S")
-                user = user_match.group(1)
+        if ip_match and time_match and user_match and event_match:
+            ip = ip_match.group(1)
+            time = datetime.strptime(time_match.group(1), "%Y-%m-%d %H:%M:%S")
+            user = user_match.group(1)
+            event = event_match.group(1)
 
+            # Group by IP for brute force detection
+            if event == "LOGIN_FAILED":
                 if ip not in attacks:
                     attacks[ip] = {"times": [], "users": set()}
-
                 attacks[ip]["times"].append(time)
                 attacks[ip]["users"].add(user)
 
-# Step 2: Detect bursts, assign severity, build report
+            # Group by username for impossible travel detection
+            if user not in user_activity:
+                user_activity[user] = []
+            user_activity[user].append({"ip": ip, "time": time, "event": event})
+
+# Step 2: Build report
 scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 report_lines = []
 
@@ -38,6 +46,10 @@ report_lines.append("")
 
 alert_count = 0
 monitored_count = 0
+
+# Step 3: Brute force detection (by IP)
+report_lines.append("--- BRUTE FORCE DETECTION ---")
+report_lines.append("")
 
 for ip, data in attacks.items():
     times = sorted(data["times"])
@@ -72,19 +84,53 @@ for ip, data in attacks.items():
         report_lines.append(f"[MONITORED] {ip} | Users: {', '.join(users)} | Attempts: {total_attempts}")
         report_lines.append("")
 
+# Step 4: Impossible travel detection (by username)
+report_lines.append("")
+report_lines.append("--- IMPOSSIBLE TRAVEL DETECTION ---")
+report_lines.append("")
+
+for user, events in user_activity.items():
+    events.sort(key=lambda x: x["time"])
+    alerted_pairs = set()
+
+    for i in range(len(events)):
+        for j in range(i + 1, len(events)):
+            ip1 = events[i]["ip"]
+            ip2 = events[j]["ip"]
+            time1 = events[i]["time"]
+            time2 = events[j]["time"]
+
+            if ip1 == ip2:
+                continue
+
+            pair = tuple(sorted([ip1, ip2]))
+            if pair in alerted_pairs:
+                continue
+
+            diff = (time2 - time1).total_seconds()
+            if diff <= 60:
+                alerted_pairs.add(pair)
+                alert_count += 1
+                report_lines.append(f"[ALERT #{alert_count}] IMPOSSIBLE TRAVEL DETECTED")
+                report_lines.append(f"  Severity  : HIGH")
+                report_lines.append(f"  User      : {user}")
+                report_lines.append(f"  IP 1      : {ip1} at {time1.strftime('%H:%M:%S')}")
+                report_lines.append(f"  IP 2      : {ip2} at {time2.strftime('%H:%M:%S')}")
+                report_lines.append(f"  Gap       : {diff} seconds")
+                report_lines.append("")
+
+# Step 5: Summary
 report_lines.append("=" * 50)
 report_lines.append(f"  Alerts    : {alert_count}")
 report_lines.append(f"  Monitored : {monitored_count}")
 report_lines.append(f"  Total IPs : {alert_count + monitored_count}")
 report_lines.append("=" * 50)
 
-# Step 3: Print to terminal
+# Step 6: Print to terminal
 for line in report_lines:
     print(line)
 
-# Step 4: Write to report file
-report_path = f"reports/soc_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-
+# Step 7: Write to report file
 with open(report_path, "w") as report_file:
     for line in report_lines:
         report_file.write(line + "\n")

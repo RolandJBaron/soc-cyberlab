@@ -1,0 +1,71 @@
+==================================================
+       SOC INCIDENT REPORT
+       Scan Time : 2026-05-12 14:13:23
+       Log File  : logs/sample4.log
+==================================================
+
+--- BRUTE FORCE DETECTION ---
+
+[ALERT #1] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 10.0.0.5
+  Users     : admin
+  Attempts  : 3
+  Window    : 4.0 seconds
+
+[MONITORED] 172.16.0.9 | Users: root | Attempts: 2
+
+[ALERT #2] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 203.0.113.99
+  Users     : root
+  Attempts  : 3
+  Window    : 4.0 seconds
+
+[ALERT #3] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 10.0.0.7
+  Users     : admin, guest, root, service
+  Attempts  : 4
+  Window    : 2.0 seconds
+
+[MONITORED] 45.33.32.156 | Users: john | Attempts: 1
+
+[MONITORED] 180.101.88.22 | Users: john | Attempts: 2
+
+[ALERT #4] BRUTE FORCE DETECTED
+  Severity  : CRITICAL
+  IP        : 192.168.1.50
+  Users     : sysadmin
+  Attempts  : 10
+  Window    : 2.0 seconds
+
+
+--- IMPOSSIBLE TRAVEL DETECTION ---
+
+[ALERT #5] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : root
+  IP 1      : 172.16.0.9 at 10:01:15
+  IP 2      : 203.0.113.99 at 10:02:00
+  Gap       : 45.0 seconds
+
+[ALERT #6] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : root
+  IP 1      : 203.0.113.99 at 10:02:02
+  IP 2      : 10.0.0.7 at 10:03:02
+  Gap       : 60.0 seconds
+
+[ALERT #7] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : john
+  IP 1      : 45.33.32.156 at 10:04:00
+  IP 2      : 180.101.88.22 at 10:04:15
+  Gap       : 15.0 seconds
+
+==================================================
+  Alerts    : 7
+  Monitored : 3
+  Total IPs : 10
+==================================================
