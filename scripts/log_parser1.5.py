@@ -83,6 +83,8 @@ for line in report_lines:
     print(line)
 
 # Step 4: Write to report file
+report_path = f"reports/soc_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+
 with open(report_path, "w") as report_file:
     for line in report_lines:
         report_file.write(line + "\n")
