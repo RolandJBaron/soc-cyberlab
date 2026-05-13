@@ -1,0 +1,128 @@
+==================================================
+       SOC INCIDENT REPORT
+       Scan Time  : 2026-05-13 10:45:41
+       Logs Folder: logs/
+       Files Found: 4
+==================================================
+
+--- BRUTE FORCE DETECTION ---
+
+[ALERT #1] BRUTE FORCE DETECTED
+  Severity  : CRITICAL
+  IP        : 192.168.1.50
+  Users     : sysadmin, admin
+  Attempts  : 12
+  Window    : 2.0 seconds
+
+[ALERT #2] BRUTE FORCE DETECTED
+  Severity  : HIGH
+  IP        : 10.0.0.5
+  Users     : john, root, admin
+  Attempts  : 8
+  Window    : 2.0 seconds
+
+[ALERT #3] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 172.16.0.5
+  Users     : alice
+  Attempts  : 3
+  Window    : 4.0 seconds
+
+[MONITORED] 10.0.0.8 | Users: bob | Attempts: 2
+
+[ALERT #4] BRUTE FORCE DETECTED
+  Severity  : CRITICAL
+  IP        : 203.0.113.99
+  Users     : root
+  Attempts  : 10
+  Window    : 4.0 seconds
+
+[ALERT #5] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 172.16.0.9
+  Users     : root
+  Attempts  : 4
+  Window    : 3.0 seconds
+
+[ALERT #6] BRUTE FORCE DETECTED
+  Severity  : MEDIUM
+  IP        : 10.0.0.7
+  Users     : guest, root, service, admin
+  Attempts  : 4
+  Window    : 2.0 seconds
+
+[MONITORED] 45.33.32.156 | Users: john | Attempts: 1
+
+[MONITORED] 180.101.88.22 | Users: john | Attempts: 2
+
+
+--- IMPOSSIBLE TRAVEL DETECTION ---
+
+[ALERT #7] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : admin
+  IP 1      : 192.168.1.10 at 10:00:01
+  IP 2      : 10.0.0.5 at 10:00:01
+  Gap       : 0.0 seconds
+
+[ALERT #8] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : admin
+  IP 1      : 192.168.1.10 at 10:00:01
+  IP 2      : 192.168.1.50 at 10:00:05
+  Gap       : 4.0 seconds
+
+[ALERT #9] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : admin
+  IP 1      : 10.0.0.5 at 10:00:01
+  IP 2      : 192.168.1.50 at 10:00:05
+  Gap       : 4.0 seconds
+
+[ALERT #10] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : root
+  IP 1      : 172.16.0.9 at 10:01:15
+  IP 2      : 203.0.113.99 at 10:02:00
+  Gap       : 45.0 seconds
+
+[ALERT #11] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : root
+  IP 1      : 203.0.113.99 at 10:02:02
+  IP 2      : 10.0.0.7 at 10:03:02
+  Gap       : 60.0 seconds
+
+[ALERT #12] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : john
+  IP 1      : 192.168.1.20 at 10:00:15
+  IP 2      : 10.0.0.5 at 10:00:18
+  Gap       : 3.0 seconds
+
+[ALERT #13] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : john
+  IP 1      : 45.33.32.156 at 10:04:00
+  IP 2      : 180.101.88.22 at 10:04:15
+  Gap       : 15.0 seconds
+
+[ALERT #14] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : alice
+  IP 1      : 192.168.1.10 at 09:00:01
+  IP 2      : 172.16.0.5 at 09:00:05
+  Gap       : 4.0 seconds
+
+[ALERT #15] IMPOSSIBLE TRAVEL DETECTED
+  Severity  : HIGH
+  User      : bob
+  IP 1      : 192.168.1.11 at 09:01:10
+  IP 2      : 10.0.0.8 at 09:01:15
+  Gap       : 5.0 seconds
+
+==================================================
+  Alerts    : 15
+  Monitored : 3
+  Total IPs : 18
+==================================================

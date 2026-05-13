@@ -1,0 +1,20 @@
+==================================================
+       WINDOWS SECURITY EVENT REPORT
+       Scan Time : 2026-05-13 12:40:09
+       Log File  : logs/windows_failed_logins.log
+       Events    : 17
+==================================================
+
+[ALERT #1] BRUTE FORCE DETECTED
+  Severity  : CRITICAL
+  IP        : ::1
+  Users     : testuser
+  Attempts  : 14
+  Window    : 16.0 seconds
+  Reason    : Unknown user name or bad password.
+
+==================================================
+  Alerts    : 1
+  Monitored : 0
+  Total IPs : 1
+==================================================
