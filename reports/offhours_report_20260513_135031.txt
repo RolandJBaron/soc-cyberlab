@@ -1,0 +1,52 @@
+==================================================
+       OFF-HOURS LOGIN DETECTION REPORT
+       Scan Time      : 2026-05-13 13:50:31
+       Log File       : logs/offhours_login_detector.log
+       Business Hours : 08:00 - 18:00
+==================================================
+
+[ALERT #1] OFF-HOURS LOGIN
+  Severity  : MEDIUM
+  Time      : 2026-01-01 02:15:00 (Hour: 02:00)
+  User      : john
+  IP        : 45.33.32.156
+  Event     : LOGIN_SUCCESS
+
+[ALERT #2] OFF-HOURS LOGIN
+  Severity  : MEDIUM
+  Time      : 2026-01-01 03:22:00 (Hour: 03:00)
+  User      : admin
+  IP        : 192.168.1.10
+  Event     : LOGIN_SUCCESS
+
+[ALERT #3] OFF-HOURS LOGIN
+  Severity  : HIGH
+  Time      : 2026-01-01 04:05:00 (Hour: 04:00)
+  User      : root
+  IP        : 203.0.113.99
+  Event     : LOGIN_FAILED
+
+[ALERT #4] OFF-HOURS LOGIN
+  Severity  : MEDIUM
+  Time      : 2026-01-01 23:45:00 (Hour: 23:00)
+  User      : sysadmin
+  IP        : 192.168.1.50
+  Event     : LOGIN_SUCCESS
+
+[ALERT #5] OFF-HOURS LOGIN
+  Severity  : HIGH
+  Time      : 2026-01-01 01:30:00 (Hour: 01:00)
+  User      : admin
+  IP        : 10.0.0.5
+  Event     : LOGIN_FAILED
+
+[ALERT #6] OFF-HOURS LOGIN
+  Severity  : MEDIUM
+  Time      : 2026-01-01 22:10:00 (Hour: 22:00)
+  User      : bob
+  IP        : 192.168.1.11
+  Event     : LOGIN_SUCCESS
+
+==================================================
+  Total Off-Hours Events : 6
+==================================================
